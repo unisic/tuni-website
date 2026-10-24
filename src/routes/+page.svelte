@@ -1,20 +1,43 @@
 <script>
-	import { reveal, scrollProgress, spotlight } from '#lib/motion.js';
+	import { clip, reveal, scrollProgress } from '#lib/motion.js';
 	import CmdCopy from '#lib/CmdCopy.svelte';
 	import Bench from '#lib/Bench.svelte';
 	import Themes from '#lib/Themes.svelte';
 
 	const install = 'curl -fsSL https://tuni.unisic.app/install.sh | bash';
-	const headline = ['A', 'native', 'terminal', 'workspace', 'for', 'Linux.'];
 
 	// Empty spots in the hero screenshot, in percent of the image, so a label
-	// covers nothing it names.
+	// covers nothing it names. `area` is the part it names: left, top, width, height.
 	const callouts = [
-		{ label: 'Projects', x: 6, y: 35 },
-		{ label: 'Split panes', x: 28, y: 54 },
-		{ label: 'Source editor', x: 62, y: 11 },
-		{ label: 'Git, a hunk at a time', x: 88, y: 15 }
+		{ label: 'Projects', x: 6, y: 35, area: [0.4, 0.5, 10.7, 99] },
+		{ label: 'Split panes', x: 28, y: 54, area: [11.5, 8.6, 33.4, 90.5] },
+		{ label: 'Source editor', x: 62, y: 11, area: [45.2, 8.6, 33.4, 90.5] },
+		{ label: 'Git, a hunk at a time', x: 88, y: 15, area: [79, 4, 20.7, 95.6] }
 	];
+	/** @param {number[]} a */
+	const box = ([l, t, w, h]) => `left:${l}%;top:${t}%;width:${w}%;height:${h}%`;
+
+	// The area the pointer is over, or -1; `held` keeps the last one so the
+	// frame fades out where it was instead of jumping first.
+	let lit = $state(-1);
+	let held = $state(0);
+
+	/** @type {import('svelte/attachments').Attachment<HTMLElement>} */
+	function light(node) {
+		const over = (/** @type {PointerEvent} */ e) => {
+			if (e.pointerType === 'touch') return;
+			const el = /** @type {Element} */ (e.target).closest('[data-area]');
+			if (!(el instanceof HTMLElement)) return;
+			lit = held = Number(el.dataset.area);
+		};
+		const leave = () => (lit = -1);
+		node.addEventListener('pointerover', over);
+		node.addEventListener('pointerleave', leave);
+		return () => {
+			node.removeEventListener('pointerover', over);
+			node.removeEventListener('pointerleave', leave);
+		};
+	}
 
 	const cells = [
 		['Kitty graphics and links', 'Images in the terminal, OSC 8 hyperlinks, desktop notifications and progress bars.'],
@@ -24,7 +47,55 @@
 		['Every pane at once', 'Type one command into every pane of a tab at once, and wipe the line being typed with Ctrl+Shift+Backspace, whatever the shell.'],
 		['Back as you left it', 'With Restore the Last Session on, projects, tabs, splits and open files come back. A fresh shell is the default.']
 	];
+
+	// The feature clips, recorded from Tuni itself; each one ends where it starts.
+	const clips = {
+		diff: {
+			width: 1430,
+			height: 600,
+			label: 'A diff of window.rs in a pane, two hunks with the changed words highlighted. The pointer stages the first hunk with its plus button, the Git panel lists window.rs as both staged and changed, and unstaging it brings the hunk back.'
+		},
+		info: {
+			width: 1430,
+			height: 520,
+			label: 'python3 -m http.server 4173 is typed into a pane and run. The Info panel then lists the python3.14 process with its CPU and memory and port 4173 under Ports, and both lists empty again after Ctrl+C.'
+		},
+		hosts: {
+			width: 1430,
+			height: 540,
+			label: 'The Connect page: a search field, Local shell, and four hosts with Debian, Linux, Fedora and Arch logos, their user and address, and tags. Typing fra narrows it to VPS Frankfurt, and pi to Raspberry Pi.'
+		},
+		palette: {
+			width: 1300,
+			height: 620,
+			label: 'The command palette opened over two terminals and an editor. Searching for tab lists New Tab, Reopen Closed Tab, Previous Tab, Rename Tab, Close Tab and Next Tab, each with its shortcut.'
+		}
+	};
 </script>
+
+{#snippet feature(/** @type {keyof typeof clips} */ name)}
+	<figure class="shot shot-wipe" {@attach reveal(120)} {@attach clip}>
+		<video
+			poster="/img/{name}.webp"
+			width={clips[name].width}
+			height={clips[name].height}
+			muted
+			loop
+			playsinline
+			preload="none"
+			aria-label={clips[name].label}
+		>
+			<source src="/video/{name}.av1.mp4" type="video/mp4; codecs=av01.0.05M.08" />
+			<source src="/video/{name}.mp4" type="video/mp4" />
+		</video>
+		<button class="shot-play" type="button" aria-label="Pause" aria-pressed="false" hidden>
+			<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+				<path class="i-pause" d="M4 3h3v10H4zm5 0h3v10H9z" />
+				<path class="i-play" d="M5 2.5v11l8.5-5.5z" />
+			</svg>
+		</button>
+	</figure>
+{/snippet}
 
 <div class="page" {@attach scrollProgress(560)}>
 	<a class="skip" href="#main">Skip to content</a>
@@ -52,19 +123,17 @@
 				<p class="eyebrow load" style:--i="0">
 					<span class="prompt" aria-hidden="true">❯</span> v1.6.0 · GPLv3 · Linux
 				</p>
-				<h1 aria-label={headline.join(' ')}>
-					{#each headline as word, i (i)}
-						<span class="word" style:--i={i + 1} aria-hidden="true">{word}</span>{' '}
-					{/each}<span class="caret" aria-hidden="true"></span>
+				<h1 class="load" style:--i="1">
+					A native terminal workspace for Linux.<span class="caret" aria-hidden="true"></span>
 				</h1>
-				<p class="lede load" style:--i="7">
+				<p class="lede load" style:--i="2">
 					Terminals, projects, files and Git in one window. Rust and GTK4, with Ghostty's
 					<code>libghostty-vt</code> doing the emulation.
 				</p>
-				<div class="load" style:--i="8">
+				<div class="load" style:--i="3">
 					<CmdCopy command={install} />
 				</div>
-				<p class="hero-links load" style:--i="9">
+				<p class="hero-links load" style:--i="4">
 					<a href="https://github.com/unisic/tuni/releases">rpm, deb and Arch packages</a>
 					<span aria-hidden="true">·</span>
 					<a href="#install">Other ways to install</a>
@@ -72,7 +141,7 @@
 			</div>
 
 			<div class="wrap wrap-wide hero-stage">
-				<figure class="shot shot-hero">
+				<figure class="shot shot-hero" class:lit={lit >= 0} {@attach light}>
 					<img
 						src="/img/hero.webp"
 						width="1910"
@@ -80,8 +149,22 @@
 						fetchpriority="high"
 						alt="Tuni with four projects in the sidebar. The tuni project has three tabs; the open one is split into a git log, a cargo test run and session.rs in the editor, with the Git panel on the right listing staged and changed files."
 					/>
+					<div class="areas" aria-hidden="true">
+						{#each callouts as c, i (c.label)}
+							<div data-area={i} style={box(c.area)}></div>
+						{/each}
+						<div class="frame" style={box(callouts[held].area)}></div>
+					</div>
 					{#each callouts as c, i (c.label)}
-						<span class="callout" style:left="{c.x}%" style:top="{c.y}%" style:--i={i} aria-hidden="true">
+						<span
+							class="callout"
+							class:on={lit === i}
+							data-area={i}
+							style:left="{c.x}%"
+							style:top="{c.y}%"
+							style:--i={i}
+							aria-hidden="true"
+						>
 							{c.label}
 						</span>
 					{/each}
@@ -109,16 +192,7 @@
 						</p>
 						<p class="muted">Commit, amend and the history are in the same panel.</p>
 					</div>
-					<figure class="shot shot-wipe" {@attach reveal(120)}>
-						<img
-							src="/img/diff.webp"
-							width="1430"
-							height="540"
-							loading="lazy"
-							decoding="async"
-							alt="A diff of window.rs in a pane: one hunk, with the removed and added lines and the changed words highlighted. The Git panel beside it lists README.md as staged and two files as changed."
-						/>
-					</figure>
+					{@render feature('diff')}
 				</article>
 
 				<article class="feature">
@@ -132,16 +206,7 @@
 							A pane on another machine also says whether the connection is still there and which ports it carries.
 						</p>
 					</div>
-					<figure class="shot shot-wipe" {@attach reveal(120)}>
-						<img
-							src="/img/info.webp"
-							width="1430"
-							height="520"
-							loading="lazy"
-							decoding="async"
-							alt="A pane running python3 -m http.server on port 4173. The Info panel lists the python3.14 process with its CPU and memory, and port 4173 under Ports."
-						/>
-					</figure>
+					{@render feature('info')}
 				</article>
 
 				<article class="feature">
@@ -157,16 +222,7 @@
 							password you choose to keep goes into the desktop's keyring, and Tuni never reads it back.
 						</p>
 					</div>
-					<figure class="shot shot-wipe" {@attach reveal(120)}>
-						<img
-							src="/img/hosts.webp"
-							width="1430"
-							height="540"
-							loading="lazy"
-							decoding="async"
-							alt="The Connect page: a search field, Local shell, and four recent hosts with Debian, Hetzner, Fedora and Arch logos, their user and address, and tags."
-						/>
-					</figure>
+					{@render feature('hosts')}
 				</article>
 
 				<article class="feature">
@@ -178,21 +234,12 @@
 						</p>
 						<p class="muted">Shortcuts are listed and rebound in the settings window.</p>
 					</div>
-					<figure class="shot shot-wipe" {@attach reveal(120)}>
-						<img
-							src="/img/palette.webp"
-							width="1300"
-							height="620"
-							loading="lazy"
-							decoding="async"
-							alt="The command palette over the workspace, searching for tab: New Tab, Reopen Closed Tab, Previous Tab, Rename Tab, Close Tab and Next Tab, each with its shortcut."
-						/>
-					</figure>
+					{@render feature('palette')}
 				</article>
 
 				<ul class="cells" role="list">
 					{#each cells as [title, text], i (title)}
-						<li class="cell" {@attach reveal(i * 70)} {@attach spotlight}>
+						<li class="cell" {@attach reveal(i * 70)}>
 							<h3>{title}</h3>
 							<p>{text}</p>
 						</li>

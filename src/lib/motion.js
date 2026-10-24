@@ -75,16 +75,39 @@ export function scrollProgress(span) {
 }
 
 /**
- * Tracks the pointer inside the element as `--mx` / `--my`, for a light that
- * follows it. Style writes only; no layout is read past the one rect.
+ * Plays the figure's muted loop while it is on screen and pauses it off
+ * screen, so only the clip in view decodes. Its button keeps it paused. Under
+ * reduced motion the clip stays on its poster and the button stays hidden.
  * @type {import('svelte/attachments').Attachment<HTMLElement>}
  */
-export function spotlight(node) {
-	const move = (/** @type {PointerEvent} */ e) => {
-		const r = node.getBoundingClientRect();
-		node.style.setProperty('--mx', `${e.clientX - r.left}px`);
-		node.style.setProperty('--my', `${e.clientY - r.top}px`);
+export function clip(node) {
+	const video = /** @type {HTMLVideoElement} */ (node.querySelector('video'));
+	const button = /** @type {HTMLButtonElement} */ (node.querySelector('button'));
+	if (reduced()) return;
+	let seen = false;
+	let held = false;
+	const sync = () => {
+		button.setAttribute('aria-pressed', String(held));
+		// A refused or interrupted play() leaves the poster up, which is the fallback anyway.
+		if (seen && !held) video.play().catch(() => {});
+		else video.pause();
 	};
-	node.addEventListener('pointermove', move);
-	return () => node.removeEventListener('pointermove', move);
+	const io = new IntersectionObserver(
+		([entry]) => {
+			seen = entry.isIntersecting;
+			sync();
+		},
+		{ threshold: 0.4 }
+	);
+	const toggle = () => {
+		held = !held;
+		sync();
+	};
+	button.hidden = false;
+	button.addEventListener('click', toggle);
+	io.observe(node);
+	return () => {
+		io.disconnect();
+		button.removeEventListener('click', toggle);
+	};
 }
