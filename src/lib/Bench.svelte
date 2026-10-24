@@ -3,20 +3,21 @@
 	import { cubicOut } from 'svelte/easing';
 	import { reveal, reduced } from './motion.js';
 
-	// From the README's table: 200 MiB of mixed output, best of two runs.
+	// From the README's table: 200 MiB of mixed output, best of five runs.
 	/** @type {[string, string, number][]} */
 	const rows = [
-		['urxvt', 'X11, CPU', 126.6],
-		['foot', 'Wayland, CPU', 118.3],
-		['tuni', 'GTK4 + libghostty-vt', 116.0],
-		['alacritty', 'GPU, OpenGL', 112.0],
-		['kitty', 'GPU, OpenGL', 110.6],
-		['st', 'X11, CPU', 90.2],
-		['ghostty', 'GTK4 + GPU', 71.8],
-		['gnome-terminal', 'VTE 0.84', 70.1],
-		['konsole', 'Qt', 43.1]
+		['tuni', 'GTK4 + libghostty-vt', 169.1],
+		['kero', 'Go + libghostty-vt', 139.4],
+		['foot', 'Wayland, CPU', 133.1],
+		['urxvt', 'X11, CPU', 123.6],
+		['alacritty', 'GPU, OpenGL', 111.7],
+		['kitty', 'GPU, OpenGL', 104.8],
+		['st', 'X11, CPU', 90.4],
+		['ghostty', 'GTK4 + GPU', 79.2],
+		['gnome-terminal', 'VTE 0.84', 66.7],
+		['konsole', 'Qt', 40.2]
 	];
-	const max = 126.6;
+	const max = 169.1;
 
 	// Starts full so the prerendered page carries the real numbers; drops to
 	// zero on hydration (the table is below the fold) and fills on sight.

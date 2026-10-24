@@ -252,16 +252,16 @@
 			<div class="wrap">
 				<div {@attach reveal()}>
 					<p class="eyebrow"><span class="prompt" aria-hidden="true">❯</span> Performance</p>
-					<h2>Third of seventeen.</h2>
+					<h2>First of nineteen.</h2>
 					<p class="section-lede">
-						Throughput for 200 MiB of mixed plain and SGR-colored output, best of two runs on one machine. Within
-						10% of the fastest terminal measured and ahead of both GPU terminals, with a whole workspace drawn
-						around it.
+						Throughput for 200 MiB of mixed plain and SGR-colored output, best of five runs on one machine. A
+						fifth ahead of kero and ahead of every GPU terminal measured, with a whole workspace drawn around it.
 					</p>
 				</div>
 				<Bench />
 				<p class="muted small">
-					Nine of the seventeen shown. The full table, the method and the caveats are in
+					Ten of the nineteen shown. tuni, kero and konsole were measured on 2026-10-24, the rest on 2026-07-28.
+					The full table, the method and the caveats are in
 					<a href="https://github.com/unisic/tuni/blob/main/docs/BENCHMARK.md">docs/BENCHMARK.md</a>.
 				</p>
 			</div>
