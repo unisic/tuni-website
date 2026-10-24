@@ -26,7 +26,7 @@
 					accessory: { type: 11, media: { url: 'https://tuni.unisic.app/img/tuni.png' } }
 				},
 				{ type: 14, divider: true, spacing: 2 },
-				{ type: 12, items: [{ media: { url: 'https://tuni.unisic.app/img/og.jpg' } }] },
+				{ type: 12, items: [{ media: { url: 'https://tuni.unisic.app/img/og.png' } }] },
 				{ type: 14, divider: true, spacing: 1 },
 				{
 					type: 1,
@@ -53,7 +53,7 @@
 	<meta property="og:title" content="Tuni · A native terminal workspace for Linux" />
 	<meta property="og:description" content="Terminals, projects, files and Git in one window." />
 	<meta property="og:url" content="https://tuni.unisic.app/" />
-	<meta property="og:image" content="https://tuni.unisic.app/img/og.jpg" />
+	<meta property="og:image" content="https://tuni.unisic.app/img/og.png" />
 	<meta name="twitter:card" content="summary_large_image" />
 	{@html `<script id="discord:component-embed" type="application/json">${discordEmbed}</script>`}
 	<link rel="preload" href="/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
