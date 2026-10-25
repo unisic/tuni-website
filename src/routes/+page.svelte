@@ -308,7 +308,7 @@
 						</p>
 						<pre><code
 								><span class="c"># Fedora, from COPR</span>
-sudo dnf copr enable deandark/Tuni &amp;&amp; sudo dnf install tuni
+sudo dnf copr enable debondor/Tuni &amp;&amp; sudo dnf install tuni
 <span class="c"># Arch, from the AUR: the release's own package, or built from source</span>
 paru -S tuni-bin
 paru -S tuni</code
