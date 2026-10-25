@@ -300,7 +300,21 @@
 				<CmdCopy command={install} large />
 
 				<div class="install-grid">
-					<div class="install-card" {@attach reveal()}>
+					<div class="install-card install-card-wide" {@attach reveal()}>
+						<h3>From a package manager</h3>
+						<p>
+							Fedora and Arch can take it from their package manager instead, which then updates it along with
+							everything else. An AUR build leaves updates to the helper, and Tuni's update dialog says so.
+						</p>
+						<pre><code
+								><span class="c"># Fedora, from COPR</span>
+sudo dnf copr enable deandark/Tuni &amp;&amp; sudo dnf install tuni
+<span class="c"># Arch, from the AUR: the release's own package, or built from source</span>
+paru -S tuni-bin
+paru -S tuni</code
+							></pre>
+					</div>
+					<div class="install-card" {@attach reveal(90)}>
 						<h3>By hand</h3>
 						<p>Every <a href="https://github.com/unisic/tuni/releases">release</a> carries the same three packages.</p>
 						<pre><code
@@ -312,7 +326,7 @@ sudo apt install ./tuni_*_amd64.deb
 sudo pacman -U ./tuni-*-x86_64.pkg.tar.zst</code
 							></pre>
 					</div>
-					<div class="install-card" {@attach reveal(90)}>
+					<div class="install-card" {@attach reveal(180)}>
 						<h3>From source</h3>
 						<p>
 							Needs Rust, GTK4, libadwaita, GtkSourceView and SQLite headers, and Zig 0.15.2, which

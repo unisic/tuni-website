@@ -457,6 +457,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
   border: 1px solid var(--divider);
 }
+.install-card-wide { grid-column: 1 / -1; }
 .install-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
 .install-card p { margin: 0 0 16px; font-size: 15px; color: var(--text-secondary); }
 .install-card pre {
