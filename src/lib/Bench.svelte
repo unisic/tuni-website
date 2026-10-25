@@ -3,21 +3,24 @@
 	import { cubicOut } from 'svelte/easing';
 	import { reveal, reduced } from './motion.js';
 
-	// From the README's table: 200 MiB of mixed output, best of five runs.
+	// From the README's table: 200 MiB of mixed output, best of five runs, all
+	// nineteen in one headless run on 2026-10-25. kero is left out because
+	// headless it reaches a third of its desktop number; the note under the
+	// table says so and gives the desktop head-to-head instead.
 	/** @type {[string, string, number][]} */
 	const rows = [
-		['tuni', 'GTK4 + libghostty-vt', 169.1],
-		['kero', 'Go + libghostty-vt', 139.4],
-		['foot', 'Wayland, CPU', 133.1],
-		['urxvt', 'X11, CPU', 123.6],
-		['alacritty', 'GPU, OpenGL', 111.7],
-		['kitty', 'GPU, OpenGL', 104.8],
-		['st', 'X11, CPU', 90.4],
-		['ghostty', 'GTK4 + GPU', 79.2],
-		['gnome-terminal', 'VTE 0.84', 66.7],
-		['konsole', 'Qt', 40.2]
+		['tuni', 'GTK4 + libghostty-vt', 151.4],
+		['foot', 'Wayland, CPU', 132.2],
+		['alacritty', 'GPU, OpenGL', 118.0],
+		['kitty', 'GPU, OpenGL', 116.8],
+		['urxvt', 'X11, CPU', 106.7],
+		['st', 'X11, CPU', 82.0],
+		['gnome-terminal', 'VTE 0.84', 65.3],
+		['ghostty', 'GTK4 + GPU', 56.7],
+		['konsole', 'Qt', 42.5],
+		['wezterm', 'GPU, wgpu', 25.5]
 	];
-	const max = 169.1;
+	const max = 151.4;
 
 	// Starts full so the prerendered page carries the real numbers; drops to
 	// zero on hydration (the table is below the fold) and fills on sight.

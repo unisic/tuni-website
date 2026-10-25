@@ -121,7 +121,7 @@
 			<div class="hero-glow" aria-hidden="true"></div>
 			<div class="wrap hero-copy">
 				<p class="eyebrow load" style:--i="0">
-					<span class="prompt" aria-hidden="true">❯</span> v1.6.0 · GPLv3 · Linux
+					<span class="prompt" aria-hidden="true">❯</span> v1.7.0 · GPLv3 · Linux
 				</p>
 				<h1 class="load" style:--i="1">
 					A native terminal workspace for Linux.<span class="caret" aria-hidden="true"></span>
@@ -254,14 +254,17 @@
 					<p class="eyebrow"><span class="prompt" aria-hidden="true">❯</span> Performance</p>
 					<h2>First of nineteen.</h2>
 					<p class="section-lede">
-						Throughput for 200 MiB of mixed plain and SGR-colored output, best of five runs on one machine. A
-						fifth ahead of kero and ahead of every GPU terminal measured, with a whole workspace drawn around it.
+						Throughput for 200 MiB of mixed plain and SGR-colored output, best of five runs, nineteen terminals
+						in one run on one machine. Ahead of foot and of every GPU terminal measured, with a whole workspace
+						drawn around it, and the first to start a shell: 5 ms after launch.
 					</p>
 				</div>
 				<Bench />
 				<p class="muted small">
-					Ten of the nineteen shown. tuni, kero and konsole were measured on 2026-10-24, the rest on 2026-07-28.
-					The full table, the method and the caveats are in
+					Ten of the nineteen shown, from one run on 2026-10-25 in a headless compositor. kero is left out:
+					headless it reaches 42 MiB/s, against 139 on the desktop, where tuni was a fifth ahead of it in each
+					of three passes. Startup, first frame, memory and idle for all nineteen, the method and the caveats
+					are in
 					<a href="https://github.com/unisic/tuni/blob/main/docs/BENCHMARK.md">docs/BENCHMARK.md</a>.
 				</p>
 			</div>
