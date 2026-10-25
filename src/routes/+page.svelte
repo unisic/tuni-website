@@ -303,15 +303,11 @@
 					<div class="install-card install-card-wide" {@attach reveal()}>
 						<h3>From a package manager</h3>
 						<p>
-							Fedora and Arch can take it from their package manager instead, which then updates it along with
-							everything else. An AUR build leaves updates to the helper, and Tuni's update dialog says so.
+							Fedora can take it from COPR instead, which then updates it along with everything else.
 						</p>
 						<pre><code
 								><span class="c"># Fedora, from COPR</span>
-sudo dnf copr enable debondor/Tuni &amp;&amp; sudo dnf install tuni
-<span class="c"># Arch, from the AUR: the release's own package, or built from source</span>
-paru -S tuni-bin
-paru -S tuni</code
+sudo dnf copr enable debondor/Tuni &amp;&amp; sudo dnf install tuni</code
 							></pre>
 					</div>
 					<div class="install-card" {@attach reveal(90)}>
