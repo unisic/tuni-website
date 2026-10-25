@@ -3,7 +3,7 @@
 	import { cubicOut } from 'svelte/easing';
 	import { reveal, reduced } from './motion.js';
 
-	// From the README's table: 200 MiB of mixed output, best of five runs, all
+	// From the table in docs/BENCHMARK.md: 200 MiB of mixed output, best of five runs, all
 	// nineteen in one headless run on 2026-10-25. kero is left out because
 	// headless it reaches a third of its desktop number; the note under the
 	// table says so and gives the desktop head-to-head instead.
@@ -38,7 +38,7 @@
 		<thead>
 			<tr>
 				<th scope="col">Terminal</th>
-				<th scope="col">Engine</th>
+				<th scope="col" class="engine">Engine</th>
 				<th scope="col"><span class="sr-only">Bar</span></th>
 				<th scope="col" class="num">MiB/s</th>
 			</tr>
@@ -47,7 +47,7 @@
 			{#each rows as [name, engine, value] (name)}
 				<tr class:me={name === 'tuni'}>
 					<th scope="row">{name}</th>
-					<td>{engine}</td>
+					<td class="engine">{engine}</td>
 					<td class="bar"><span style:width="{(value / max) * progress.current * 100}%"></span></td>
 					<td class="num">{(value * progress.current).toFixed(1)}</td>
 				</tr>

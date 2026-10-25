@@ -267,6 +267,30 @@
 					are in
 					<a href="https://github.com/unisic/tuni/blob/main/docs/BENCHMARK.md">docs/BENCHMARK.md</a>.
 				</p>
+				<div class="bench compare" {@attach reveal()}>
+					<table>
+						<caption class="sr-only">Tuni 1.7.0 against 1.6.0, measured in the same session</caption>
+						<thead>
+							<tr>
+								<th scope="col">Against 1.6.0</th>
+								<th scope="col" class="num">1.6.0</th>
+								<th scope="col" class="num">1.7.0</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr><th scope="row">Shell running, ms</th><td class="num">663-734</td><td class="num">5.2-5.6</td></tr>
+							<tr><th scope="row">First frame, ms</th><td class="num">671</td><td class="num">234</td></tr>
+							<tr><th scope="row">Throughput, MiB/s</th><td class="num">112.0</td><td class="num">146.4</td></tr>
+							<tr><th scope="row">Memory, PSS MiB</th><td class="num">59.8</td><td class="num">47.1</td></tr>
+							<tr><th scope="row">Wakeups in 20 s, 16 idle panes</th><td class="num">92</td><td class="num">22</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<p class="muted small">
+					1.6.0 and 1.7.0 interleaved in the same session. Each pane costs about 0.4 MiB, closing it returns
+					every thread and descriptor it held, and scrollback is capped, so 400 MiB of output leaves no more
+					behind than 200 MiB.
+				</p>
 			</div>
 		</section>
 
