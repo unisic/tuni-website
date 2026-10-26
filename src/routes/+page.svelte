@@ -6,6 +6,66 @@
 
 	const install = 'curl -fsSL https://tuni.unisic.app/install.sh | bash';
 
+	const site = 'https://tuni.unisic.app/';
+	const title = 'Tuni · A native terminal workspace for Linux';
+	const description =
+		"Terminals, projects, files and Git in one window. Rust and GTK4, with Ghostty's libghostty-vt doing the emulation. Free software, GPLv3.";
+
+	// Discord renders this instead of the OG card when a link is pasted. It
+	// never runs scripts, so it has to be in the prerendered <head>, and the
+	// payload is capped at 3000 bytes.
+	// https://docs.discord.com/developers/link-previews/component-embeds
+	const discordEmbed = JSON.stringify({
+		component: {
+			type: 17,
+			accent_color: 0xc8acd6,
+			components: [
+				{
+					type: 9,
+					components: [
+						{ type: 10, content: `## [${title}](${site})` },
+						{ type: 10, content: `** **\n${description}` }
+					],
+					accessory: { type: 11, media: { url: `${site}img/tuni.png` } }
+				},
+				{ type: 14, divider: true, spacing: 2 },
+				{ type: 12, items: [{ media: { url: `${site}img/og.png` } }] },
+				{ type: 14, divider: true, spacing: 1 },
+				{
+					type: 1,
+					components: [
+						{ type: 2, style: 5, label: 'Download', url: 'https://github.com/unisic/tuni/releases' },
+						{ type: 2, style: 5, label: 'GitHub', url: 'https://github.com/unisic/tuni' },
+						{ type: 2, style: 5, label: 'Discord', url: 'https://discord.gg/U2Eyw6xQBz' }
+					]
+				}
+			]
+		}
+	}).replaceAll('<', '\\u003c');
+
+	// What search engines show as the site name, and what they know of the app.
+	// https://developers.google.com/search/docs/appearance/site-names
+	const jsonLd = JSON.stringify({
+		'@context': 'https://schema.org',
+		'@graph': [
+			{ '@type': 'WebSite', name: 'Tuni', url: site },
+			{
+				'@type': 'SoftwareApplication',
+				name: 'Tuni',
+				description,
+				url: site,
+				image: `${site}img/og.png`,
+				applicationCategory: 'DeveloperApplication',
+				operatingSystem: 'Linux',
+				license: 'https://www.gnu.org/licenses/gpl-3.0.html',
+				downloadUrl: 'https://github.com/unisic/tuni/releases',
+				offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+				publisher: { '@type': 'Organization', name: 'Unisic', url: 'https://unisic.app' },
+				sameAs: ['https://github.com/unisic/tuni']
+			}
+		]
+	}).replaceAll('<', '\\u003c');
+
 	// Empty spots in the hero screenshot, in percent of the image, so a label
 	// covers nothing it names. `area` is the part it names: left, top, width, height.
 	const callouts = [
@@ -72,6 +132,28 @@
 		}
 	};
 </script>
+
+<svelte:head>
+	<title>{title}</title>
+	<meta name="description" content={description} />
+	<link rel="canonical" href={site} />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Tuni" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:title" content={title} />
+	<meta property="og:description" content="Terminals, projects, files and Git in one window." />
+	<meta property="og:url" content={site} />
+	<meta property="og:image" content="{site}img/og.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta
+		property="og:image:alt"
+		content="Tuni: a native terminal workspace for Linux. Terminals, projects, files and Git in one window. Rust and GTK4, GPLv3."
+	/>
+	<meta name="twitter:card" content="summary_large_image" />
+	{@html `<script id="discord:component-embed" type="application/json">${discordEmbed}</script>`}
+	{@html `<script type="application/ld+json">${jsonLd}</script>`}
+</svelte:head>
 
 {#snippet feature(/** @type {keyof typeof clips} */ name)}
 	<figure class="shot shot-wipe" {@attach reveal(120)} {@attach clip}>

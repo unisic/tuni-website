@@ -10,7 +10,9 @@ export default defineConfig({
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
-			adapter: adapter()
+			adapter: adapter(),
+			// 404.html answers for any depth of path, so its assets cannot be relative.
+			paths: { relative: false }
 		})
 	]
 });
