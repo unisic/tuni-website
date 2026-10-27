@@ -101,11 +101,11 @@
 
 	const cells = [
 		['Kitty graphics and links', 'Images in the terminal, OSC 8 hyperlinks, desktop notifications and progress bars.'],
-		['Long commands report back', 'A command finishing in a tab you are not watching says so, with what it was and how long it took.'],
-		['Coding agents', 'An agent thinking in a pane spins on its tab and its project, and leaves an exclamation there when it finishes in a tab you are not watching.'],
-		['Tear it out', 'Drag a tab or a whole project into a window of its own without restarting the shells in it.'],
-		['Every pane at once', 'Type one command into every pane of a tab at once, and wipe the line being typed with Ctrl+Shift+Backspace, whatever the shell.'],
-		['Back as you left it', 'With Restore the Last Session on, projects, tabs, splits and open files come back. A fresh shell is the default.']
+		['Long commands report back', 'A command that ends in a background tab says what it was and how long it took.'],
+		['Coding agents', 'A working agent spins on its tab and project, and leaves an exclamation mark when it finishes out of sight.'],
+		['Tear it out', 'Drag a tab or a project into its own window. The shells keep running.'],
+		['Every pane at once', 'Type into every pane of a tab at once. Ctrl+Shift+Backspace clears the line in any shell.'],
+		['Back as you left it', 'Restore the Last Session brings back projects, tabs, splits and open files. Off by default.']
 	];
 
 	// The feature clips, recorded from Tuni itself; each one ends where it starts.
@@ -206,7 +206,7 @@
 					<span class="prompt" aria-hidden="true">❯</span> v1.7.0 · GPLv3 · Linux
 				</p>
 				<h1 class="load" style:--i="1">
-					A native terminal workspace for Linux.<span class="caret" aria-hidden="true"></span>
+					A native terminal workspace for Linux.
 				</h1>
 				<p class="lede load" style:--i="2">
 					Terminals, projects, files and Git in one window. Rust and GTK4, with Ghostty's
@@ -257,11 +257,10 @@
 		<section class="section" id="features">
 			<div class="wrap">
 				<div {@attach reveal()}>
-					<p class="eyebrow"><span class="prompt" aria-hidden="true">❯</span> Workspace</p>
 					<h2>Shells, and everything you open beside them.</h2>
 					<p class="section-lede">
-						Panes split in a niri-style layout, grouped into tabs, grouped into projects. The file tree, the Git
-						panel and a source editor sit in the same window as the terminals they are about.
+						Panes in a niri-style layout, inside tabs, inside projects. The file tree, Git and an editor share the
+						window with them.
 					</p>
 				</div>
 
@@ -269,10 +268,9 @@
 					<div class="feature-copy" {@attach reveal()}>
 						<h3>Stage a hunk, not a file.</h3>
 						<p>
-							The Git panel shows the branch, what is staged and what changed. A changed file opens as a diff in a
-							pane, word changes marked, with a button on each hunk to stage it on its own.
+							A changed file opens as a diff in a pane, word changes marked, with a stage button on every hunk.
 						</p>
-						<p class="muted">Commit, amend and the history are in the same panel.</p>
+						<p class="muted">Branch, commit, amend and history are in the same panel.</p>
 					</div>
 					{@render feature('diff')}
 				</article>
@@ -281,12 +279,10 @@
 					<div class="feature-copy" {@attach reveal()}>
 						<h3>What is running, and what is listening.</h3>
 						<p>
-							The Info page follows the pane with the keyboard: its shell, its directory, every process under it
-							with CPU and memory, and the TCP ports they listen on, one click from the browser.
+							The Info page follows the focused pane: shell, directory, every process with CPU and memory, and the
+							TCP ports they listen on, one click from the browser.
 						</p>
-						<p class="muted">
-							A pane on another machine also says whether the connection is still there and which ports it carries.
-						</p>
+						<p class="muted">A remote pane also shows whether the connection is up and which ports it carries.</p>
 					</div>
 					{@render feature('info')}
 				</article>
@@ -295,13 +291,12 @@
 					<div class="feature-copy" {@attach reveal()}>
 						<h3>The hosts you already have.</h3>
 						<p>
-							Every host <code>~/.ssh/config</code> declares, ready to open in a pane, one shared connection per
-							machine, and an SFTP page for the machine a pane is on. A host can carry a label, tags and one of
-							forty-two system logos.
+							Every host in <code>~/.ssh/config</code> opens in a pane, with one shared connection per machine and
+							an SFTP page. A host takes a label, tags and one of 42 system logos.
 						</p>
 						<p class="muted">
-							Connecting is OpenSSH's job: a password, a passphrase or a 2FA push is answered where it always was. A
-							password you choose to keep goes into the desktop's keyring, and Tuni never reads it back.
+							OpenSSH does the connecting, so passwords, passphrases and 2FA work as always. A saved password goes
+							into the desktop keyring, and Tuni never reads it back.
 						</p>
 					</div>
 					{@render feature('hosts')}
@@ -311,10 +306,10 @@
 					<div class="feature-copy" {@attach reveal()}>
 						<h3>Every action, by name.</h3>
 						<p>
-							The command palette finds any action with its shortcut beside it. A tab switcher, and find in
-							whichever pane has the keyboard.
+							The command palette finds any action and shows its shortcut. Also a tab switcher, and find in the
+							focused pane.
 						</p>
-						<p class="muted">Shortcuts are listed and rebound in the settings window.</p>
+						<p class="muted">Every shortcut can be rebound in Settings.</p>
 					</div>
 					{@render feature('palette')}
 				</article>
@@ -333,20 +328,17 @@
 		<section class="section section-alt" id="performance">
 			<div class="wrap">
 				<div {@attach reveal()}>
-					<p class="eyebrow"><span class="prompt" aria-hidden="true">❯</span> Performance</p>
-					<h2>First of nineteen.</h2>
+					<h2>151 MiB/s, first of nineteen.</h2>
 					<p class="section-lede">
-						Throughput for 200 MiB of mixed plain and SGR-colored output, best of five runs, nineteen terminals
-						in one run on one machine. Ahead of foot and of every GPU terminal measured, with a whole workspace
-						drawn around it, and the first to start a shell: 5 ms after launch.
+						200 MiB of plain and colored output, best of five runs, nineteen terminals on one machine. Ahead of
+						foot and every GPU terminal, and the first to a shell: 5 ms after launch.
 					</p>
 				</div>
 				<Bench />
 				<p class="muted small">
-					Ten of the nineteen shown, from one run on 2026-10-25 in a headless compositor. kero is left out:
-					headless it reaches 42 MiB/s, against 139 on the desktop, where tuni was a fifth ahead of it in each
-					of three passes. Startup, first frame, memory and idle for all nineteen, the method and the caveats
-					are in
+					Ten of nineteen shown, one run on 2026-10-25 in a headless compositor. kero is left out: headless it
+					drops to 42 MiB/s from 139 on the desktop, where tuni led it by a fifth. All nineteen, the method and
+					the caveats are in
 					<a href="https://github.com/unisic/tuni/blob/main/docs/BENCHMARK.md">docs/BENCHMARK.md</a>.
 				</p>
 				<div class="bench compare" {@attach reveal()}>
@@ -369,9 +361,8 @@
 					</table>
 				</div>
 				<p class="muted small">
-					1.6.0 and 1.7.0 interleaved in the same session. Each pane costs about 0.4 MiB, closing it returns
-					every thread and descriptor it held, and scrollback is capped, so 400 MiB of output leaves no more
-					behind than 200 MiB.
+					Both versions interleaved in one session. A pane costs about 0.4 MiB, closing it frees every thread
+					and descriptor, and scrollback is capped: 400 MiB of output leaves no more behind than 200.
 				</p>
 			</div>
 		</section>
@@ -379,12 +370,10 @@
 		<section class="section" id="themes">
 			<div class="wrap">
 				<div {@attach reveal()}>
-					<p class="eyebrow"><span class="prompt" aria-hidden="true">❯</span> Themes</p>
 					<h2>574 themes, chrome included.</h2>
 					<p class="section-lede">
-						Ghostty's whole theme collection. A theme paints the sidebar, the tabs and the panels as well as the
-						terminal, so the window is one thing rather than a terminal in a frame. Light and dark can each have
-						their own.
+						Ghostty's whole collection. A theme paints the sidebar, tabs and panels too, not only the terminal.
+						Light and dark mode can each have their own.
 					</p>
 				</div>
 				<Themes />
@@ -394,12 +383,10 @@
 		<section class="section section-alt" id="install">
 			<div class="wrap">
 				<div {@attach reveal()}>
-					<p class="eyebrow"><span class="prompt" aria-hidden="true">❯</span> Install</p>
 					<h2>One line, then it updates itself.</h2>
 					<p class="section-lede">
-						The installer's menu says which version is installed, installs or updates to the newest, offers an
-						older release, and removes Tuni again. After that Tuni checks the release page once per run and offers
-						an Update button that opens the installer in a tab.
+						The installer installs, updates, goes back to an older release or removes Tuni. Tuni checks for a new
+						release once per run and offers an Update button.
 					</p>
 				</div>
 
@@ -408,9 +395,7 @@
 				<div class="install-grid">
 					<div class="install-card install-card-wide" {@attach reveal()}>
 						<h3>From a package manager</h3>
-						<p>
-							Fedora can take it from COPR instead, which then updates it along with everything else.
-						</p>
+						<p>On Fedora, COPR updates it with the rest of the system.</p>
 						<pre><code
 								><span class="c"># Fedora, from COPR</span>
 sudo dnf copr enable debondor/Tuni &amp;&amp; sudo dnf install tuni</code
@@ -432,8 +417,7 @@ sudo pacman -U ./tuni-*-x86_64.pkg.tar.zst</code
 						<h3>From source</h3>
 						<p>
 							Needs Rust, GTK4, libadwaita, GtkSourceView and SQLite headers, and Zig 0.15.2, which
-							<code>make zig</code> fetches. The three packages and the Flatpak manifest all build this same target.
-							<a href="https://github.com/unisic/tuni#building">Building</a> has the details.
+							<code>make zig</code> fetches. Details in <a href="https://github.com/unisic/tuni#building">Building</a>.
 						</p>
 						<pre><code>git clone https://github.com/unisic/tuni
 cd tuni

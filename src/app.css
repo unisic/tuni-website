@@ -64,7 +64,7 @@
   --text-on-accent: #1b1834;
   --ink-2: rgba(243, 240, 250, 0.78);
   --text-secondary: rgba(243, 240, 250, 0.62);
-  --text-tertiary: rgba(243, 240, 250, 0.4);
+  --text-tertiary: rgba(243, 240, 250, 0.55);
   --divider: rgba(243, 240, 250, 0.12);
   --accent-line: rgba(200, 172, 214, 0.24);
   --success: #7bd88f;
@@ -193,14 +193,6 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   letter-spacing: -0.025em;
   text-wrap: balance;
 }
-.caret {
-  display: inline-block;
-  width: 0.09em; height: 0.82em;
-  margin-left: 0.08em;
-  vertical-align: -0.04em;
-  border-radius: 2px;
-  background: var(--accent);
-}
 .lede {
   max-width: 640px; margin: 22px auto 0;
   font-size: clamp(1.05rem, 1.6vw, 1.22rem);
@@ -317,7 +309,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   box-shadow: 0 0 0 4px rgba(200, 172, 214, 0.2);
   transition: box-shadow var(--dur) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
 }
-/* A ring that leaves the dot now and then; it only moves with motion on. */
+/* A ring that leaves the dot once; it only moves with motion on. */
 .callout::after {
   content: "";
   position: absolute; left: 10px; top: 50%;
@@ -380,9 +372,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   border-radius: var(--r-xl);
   background: linear-gradient(180deg, var(--surface-top), var(--surface-bottom));
   border: 1px solid var(--divider);
-  transition: translate var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
 }
-.cell:hover { translate: 0 -3px; border-color: var(--accent-line); }
 .cell h3 { font-size: 1.12rem; font-weight: 700; margin-bottom: 8px; }
 .cell p { margin: 0; font-size: 15px; color: var(--text-secondary); }
 
@@ -495,13 +485,12 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
     animation: rise 900ms var(--ease-out) both;
     animation-delay: calc(var(--i) * 70ms + 80ms);
   }
-  .caret { animation: blink 1100ms steps(1) 900ms 6; }
   .hero-stage { animation: stage-in 1400ms var(--ease-out) 650ms both; }
   .shot-hero { scale: calc(0.93 + var(--progress) * 0.07); }
   /* backwards, not both: a held scale and opacity would win over .on and .lit. */
   .callout { animation: pop 600ms var(--ease-spring) backwards; animation-delay: calc(var(--i) * 140ms + 1500ms); }
   .callout.on { transform: translateY(-3px) scale(1.06); }
-  .callout::after { animation: ping 2800ms var(--ease-out) calc(var(--i) * 700ms + 2400ms) infinite; }
+  .callout::after { animation: ping 2800ms var(--ease-out) calc(var(--i) * 700ms + 2400ms); }
   .frame {
     transition:
       opacity 300ms var(--ease-out),
@@ -527,14 +516,6 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   }
   .shot-wipe.will-reveal.is-in { clip-path: inset(0 0 0 0 round 14px); }
 
-  .cell.will-reveal {
-    transition:
-      opacity 700ms var(--ease-out) var(--delay, 0ms),
-      translate 900ms var(--ease-out) var(--delay, 0ms),
-      border-color var(--dur) var(--ease-out);
-  }
-  .cell.will-reveal.is-in:hover { translate: 0 -3px; transition-delay: 0ms; }
-
   .uni.will-reveal { translate: 0 0; scale: 0.6; transform-origin: 50% 100%; transition: opacity 500ms var(--ease-out), scale 800ms var(--ease-spring); }
   .uni.will-reveal.is-in { scale: 1; }
 }
@@ -549,7 +530,6 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   from { opacity: 0; translate: 0 0.6em; }
   to { opacity: 1; translate: 0 0; }
 }
-@keyframes blink { 50% { opacity: 0; } }
 @keyframes stage-in {
   from { opacity: 0; translate: 0 80px; }
   to { opacity: 1; translate: 0 0; }
