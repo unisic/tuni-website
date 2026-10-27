@@ -102,7 +102,7 @@
 	const cells = [
 		['Kitty graphics and links', 'Images in the terminal, OSC 8 hyperlinks, desktop notifications and progress bars.'],
 		['Long commands report back', 'A command that ends in a background tab says what it was and how long it took.'],
-		['Coding agents', 'A working agent spins on its tab and project, and leaves an exclamation mark when it finishes out of sight.'],
+		['Coding agents', 'A working agent spins on its tab and leaves a mark when it finishes out of sight. Ctrl+Shift+J goes to the next tab that needs you, and a worktree tab gives each agent its own branch.'],
 		['Tear it out', 'Drag a tab or a project into its own window. The shells keep running.'],
 		['Every pane at once', 'Type into every pane of a tab at once. Ctrl+Shift+Backspace clears the line in any shell.'],
 		['Back as you left it', 'Restore the Last Session brings back projects, tabs, splits and open files. Off by default.']
@@ -203,7 +203,7 @@
 			<div class="hero-glow" aria-hidden="true"></div>
 			<div class="wrap hero-copy">
 				<p class="eyebrow load" style:--i="0">
-					<span class="prompt" aria-hidden="true">❯</span> v1.7.0 · GPLv3 · Linux
+					<span class="prompt" aria-hidden="true">❯</span> v1.7.1 · GPLv3 · Linux
 				</p>
 				<h1 class="load" style:--i="1">
 					A native terminal workspace for Linux.
@@ -309,7 +309,10 @@
 							The command palette finds any action and shows its shortcut. Also a tab switcher, and find in the
 							focused pane.
 						</p>
-						<p class="muted">Every shortcut can be rebound in Settings.</p>
+						<p class="muted">
+							It also runs the project's <code>package.json</code> scripts and <code>justfile</code> or <code>Makefile</code>
+							tasks. Every shortcut can be rebound in Settings.
+						</p>
 					</div>
 					{@render feature('palette')}
 				</article>
@@ -343,26 +346,27 @@
 				</p>
 				<div class="bench compare" {@attach reveal()}>
 					<table>
-						<caption class="sr-only">Tuni 1.7.0 against 1.6.0, measured in the same session</caption>
+						<caption class="sr-only">Tuni 1.7.1 against 1.7.0, measured in the same session</caption>
 						<thead>
 							<tr>
-								<th scope="col">Against 1.6.0</th>
-								<th scope="col" class="num">1.6.0</th>
+								<th scope="col">Against 1.7.0</th>
 								<th scope="col" class="num">1.7.0</th>
+								<th scope="col" class="num">1.7.1</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr><th scope="row">Shell running, ms</th><td class="num">663-734</td><td class="num">5.2-5.6</td></tr>
-							<tr><th scope="row">First frame, ms</th><td class="num">671</td><td class="num">234</td></tr>
-							<tr><th scope="row">Throughput, MiB/s</th><td class="num">112.0</td><td class="num">146.4</td></tr>
-							<tr><th scope="row">Memory, PSS MiB</th><td class="num">59.8</td><td class="num">47.1</td></tr>
-							<tr><th scope="row">Wakeups in 20 s, 16 idle panes</th><td class="num">92</td><td class="num">22</td></tr>
+							<tr><th scope="row">30 Hz spinner, CPU ms per 10 s</th><td class="num">452.6</td><td class="num">193.6</td></tr>
+							<tr><th scope="row">Search 50,000 lines, ms</th><td class="num">44.6</td><td class="num">25.4</td></tr>
+							<tr><th scope="row">Session save, ms per pane</th><td class="num">70.1</td><td class="num">28.1</td></tr>
+							<tr><th scope="row">Throughput, MiB/s</th><td class="num">153.9</td><td class="num">154.8</td></tr>
+							<tr><th scope="row">Memory, PSS MiB</th><td class="num">48.9</td><td class="num">49.2</td></tr>
 						</tbody>
 					</table>
 				</div>
 				<p class="muted small">
-					Both versions interleaved in one session. A pane costs about 0.4 MiB, closing it frees every thread
-					and descriptor, and scrollback is capped: 400 MiB of output leaves no more behind than 200.
+					Both versions interleaved in one session, medians. Search and save are timed outside the app, over a full
+					scrollback. A pane costs about 0.4 MiB, closing it frees every thread and descriptor, and scrollback is
+					capped: 400 MiB of output leaves no more behind than 200.
 				</p>
 			</div>
 		</section>
@@ -416,7 +420,7 @@ sudo pacman -U ./tuni-*-x86_64.pkg.tar.zst</code
 					<div class="install-card" {@attach reveal(180)}>
 						<h3>From source</h3>
 						<p>
-							Needs Rust, GTK4, libadwaita, GtkSourceView and SQLite headers, and Zig 0.15.2, which
+							Needs Rust, GTK4, libadwaita, GtkSourceView and SQLite headers, and Zig 0.17.0, which
 							<code>make zig</code> fetches. Details in <a href="https://github.com/unisic/tuni#building">Building</a>.
 						</p>
 						<pre><code>git clone https://github.com/unisic/tuni
