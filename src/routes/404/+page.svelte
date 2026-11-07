@@ -1,3 +1,7 @@
+<script>
+	import Footer from '#lib/Footer.svelte';
+</script>
+
 <svelte:head>
 	<title>Not found · Tuni</title>
 	<meta name="robots" content="noindex" />
@@ -13,4 +17,11 @@
 			<p class="hero-links"><a class="pill pill-ghost" href="/">Go to the home page</a></p>
 		</div>
 	</main>
+	<Footer />
 </div>
+
+<style>
+	main {
+		padding-bottom: 96px;
+	}
+</style>
