@@ -31,7 +31,7 @@
 				<li><a href="https://github.com/unisic/tuni/releases">Releases</a></li>
 				<li><a href="https://github.com/unisic/tuni/blob/main/docs/DESIGN.md">Documentation</a></li>
 				<li><a href="https://discord.gg/U2Eyw6xQBz">Discord</a></li>
-				<li><a href="https://buymeacoffee.com/unisic">Buy us a coffee</a></li>
+				<li><a href="https://ko-fi.com/unisic">Support on Ko-fi</a></li>
 			</ul>
 		</div>
 	</div>
